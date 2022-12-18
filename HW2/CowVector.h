@@ -103,15 +103,12 @@ public:
 /* --- COW's detach --- */
 template<typename T>
 void CowVector<T>::detach() {
-    PRINT("detach: ");
     named_objects_vector* tmp = m_vector_ptr.get();
     if (!m_vector_ptr.unique())
     {
-        PRINTLN("true");
         m_vector_ptr = std::make_shared<named_objects_vector>(*tmp);
         return;
     }
-    PRINTLN("false");
 }
 
 
@@ -120,7 +117,6 @@ void CowVector<T>::detach() {
 template<typename T>
 CowVector<T>::CowVector()
 {
-    PRINTLN("MyVector4()");
     m_vector_ptr = std::make_shared<named_objects_vector>();
 }
 
@@ -158,8 +154,7 @@ typename CowVector<T>::named_objects_vector::const_iterator CowVector<T>::ñend()
 /* --- Vector methods --- */
 template<typename T>
 void CowVector<T>::push_back(const T& obj, const std::string& name) {
-    PRINTLN("push_back(" + name + ")");
-    PRINT("\t"); detach();
+    detach();
     m_vector_ptr->push_back(NamedObject<T>(obj, name));
 }
 
@@ -175,14 +170,12 @@ size_t CowVector<T>::size() const {
 
 template<typename T>
 void CowVector<T>::reserve(size_t new_size) {
-    PRINTLN("reserve()");
     detach();
     m_vector_ptr->reserve(new_size);
 }
 
 template<typename T>
 void CowVector<T>::clear() {
-    PRINTLN("clear()");
     detach();
     m_vector_ptr->clear();
 }
@@ -192,7 +185,6 @@ void CowVector<T>::clear() {
 /* --- Operator overloads --- */
 template<typename T>
 NamedObject<T>& CowVector<T>::operator[](size_t index) {
-    PRINTLN("operator[index]");
     if (index >= m_vector_ptr->size()) {
         throw new std::out_of_range("Index is out of range");
     }
@@ -209,7 +201,6 @@ NamedObject<T>& CowVector<T>::operator[](size_t index) {
 
 template<typename T>
 const NamedObject<T>& CowVector<T>::operator[](size_t index) const {
-    PRINTLN("const operator[index]");
     if (index >= m_vector_ptr->size()) {
         throw new std::out_of_range("Index is out of range");
     }
@@ -219,7 +210,6 @@ const NamedObject<T>& CowVector<T>::operator[](size_t index) const {
 
 template<typename T>
 NamedObject<T>& CowVector<T>::operator[](const std::string& name) {
-    PRINTLN("operator[name]");
     typename named_objects_vector::iterator it = std::find_if(
         m_vector_ptr->begin(),
         m_vector_ptr->end(),
@@ -244,7 +234,6 @@ NamedObject<T>& CowVector<T>::operator[](const std::string& name) {
 
 template<typename T>
 const NamedObject<T>& CowVector<T>::operator[](const std::string& name) const {
-    PRINTLN("const operator[index]");
     typename named_objects_vector::const_iterator it = std::find_if(
         m_vector_ptr->begin(),
         m_vector_ptr->end(),
