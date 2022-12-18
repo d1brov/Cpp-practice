@@ -36,16 +36,16 @@
  */
 
 template <typename T>
-class MyVector : public std::vector<T>
+class MyVector : public std::vector<T> // Aggregation over inheritance principle. vector<T> should be private variable
 {
 public:
-    MyVector()
+    MyVector()  // See variables comments (line 112)
     {
-        m_ref_ptr = new size_t(1);
-        m_names = new std::vector<std::string>();
+        m_ref_ptr = new size_t(1);  // Smart-pointers should be used instead of raw pointers 
+        m_names = new std::vector<std::string>();   // std::make_shared<vector<...>>() should be used
     }
 
-    MyVector(const MyVector& other)
+    MyVector(const MyVector& other) // See COW comments (line 112)
         : std::vector<T>(other),
         m_ref_ptr(other.m_ref_ptr),
         m_names(other.m_names)
@@ -53,7 +53,7 @@ public:
         (*m_ref_ptr)++;
     }
 
-    ~MyVector()
+    ~MyVector() // No need of manualy freeing memory with smart pointers
     {
         if (-- * m_ref_ptr == 0)
         {
@@ -70,29 +70,29 @@ public:
         m_names->push_back(name);
     }
 
-    std::pair<const T&, const std::string&> operator[](int index) const
+    std::pair<const T&, const std::string&> operator[](int index) const // With pair<const T&, const string&> it's impossible to correctly overload operator[] with correct COW implementation.
     {
-        if (index >= std::vector<T>::size())
+        if (index >= std::vector<T>::size())    // Øndex shoud have size_t type (int is signed)
         {
-            throw new std::out_of_range("Index is out of range");
+            throw new std::out_of_range("Index is out of range"); // Generally flow control via exceptions is bad practice
         }
 
-        return std::pair<const T&, const std::string&>(std::vector<T>::operator[](index), (*m_names)[index]);
+        return std::pair<const T&, const std::string&>(std::vector<T>::operator[](index), (*m_names)[index]); // Line length shoud not exceed 80 columns
     }
 
     const T& operator[](const std::string& name) const
     {
-        std::vector<std::string>::const_iterator iter = std::find(m_names->begin(), m_names->end(), name);
+        std::vector<std::string>::const_iterator iter = std::find(m_names->begin(), m_names->end(), name); // Line length shoud not exceed 80 columns
         if (iter == m_names->end())
         {
-            throw new std::invalid_argument(name + " is not found in the MyVector");
+            throw new std::invalid_argument(name + " is not found in the MyVector"); // See previous comments
         }
 
         return std::vector<T>::operator[](iter - m_names->begin());
     }
 
 private:
-    void copy_names()
+    void copy_names() // See COW comments (line 112)
     {
         if (*m_ref_ptr == 1)
         {
@@ -108,12 +108,15 @@ private:
     }
 
 private:
-    // Use copy-on-write idiom for efficiency (not a premature optimization)
-    std::vector<std::string>* m_names;
-    size_t* m_ref_ptr;
+    /*
+        To correctly implement COW we must control state change of all data.
+        With implementation like this (inherited vector + agregated names) it would be impossible.
+        Vector of pairs(std::<pair<T, string>>) also could not be used as struct is default public members.
+        So we could not controll change of internal state of data.
+    */
+    std::vector<std::string>* m_names;  // shared_pointer<vector<>> shoud be used. 
+    size_t* m_ref_ptr;  // shared_pointer<vector<...>>'s unique() can be used
 };
 
 
 #endif //CODEREVIEWTASK_MYVECTOR_HPP
-
-
