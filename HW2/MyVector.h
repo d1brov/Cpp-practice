@@ -110,12 +110,12 @@ private:
 private:
     /*
         To correctly implement COW we must control state change of all data.
-        With implementation like this (inherited vector + agregated names) it would be impossible.
+        With implementation like this (inherited vector + aggregated names), it would be impossible.
         Vector of pairs(std::<pair<T, string>>) also could not be used as struct is default public members.
-        So we could not controll change of internal state of data.
+        So we could not controll change in internal state of data.
     */
     std::vector<std::string>* m_names;  // shared_pointer<vector<>> shoud be used. 
-    size_t* m_ref_ptr;  // shared_pointer<vector<...>>'s unique() can be used
+    size_t* m_ref_ptr;  // See COW comments (line 112)
 };
 
 
