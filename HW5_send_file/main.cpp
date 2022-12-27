@@ -23,8 +23,6 @@ void start_client(const std::string& host, const std::string& port, const std::s
 
 int main(int argc, char* argv[])
 {
-    //start_server("15001");
-
     if (argc < 2)
     {
         std::cerr << "Specify mode: server/client\n";
@@ -49,13 +47,6 @@ int main(int argc, char* argv[])
         }
         start_client(argv[2], argv[3], argv[4]);
     }
-
-    //start_server("15003");
-    //start_client("127.0.0.1", "15003");
-
-    //std::thread srv_t(start_server, "15003");
-    //std::this_thread::sleep_for(std::chrono::milliseconds(300));
-    //std::thread clt_t(start_client, "127.0.0.1", "15003");
 
     return 0;
 }
