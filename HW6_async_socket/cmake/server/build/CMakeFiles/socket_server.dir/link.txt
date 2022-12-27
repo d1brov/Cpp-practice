@@ -1,0 +1,1 @@
+/usr/bin/g++ -O3 -DNDEBUG -rdynamic CMakeFiles/socket_server.dir/server.cpp.o -o socket_server 

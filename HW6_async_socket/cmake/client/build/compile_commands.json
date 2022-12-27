@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/andril/projects/helloworld/build",
+  "command": "/usr/bin/g++   -O3 -DNDEBUG -o CMakeFiles/socket_client.dir/client.cpp.o -c /home/andril/projects/helloworld/client.cpp",
+  "file": "/home/andril/projects/helloworld/client.cpp"
+}
+]
