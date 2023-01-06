@@ -1,0 +1,1 @@
+C:\Users\andrii\Desktop\C++ Apriorit\Cpp-practice\HW11_unit_testing\Task1Tests\x64\Debug\Task1Tests.vcxproj.CopyComplete
