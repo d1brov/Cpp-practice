@@ -273,7 +273,9 @@ void start_server(const unsigned short port, const unsigned short max_clients)
                             close_conn = TRUE;
                             break;
                         }
-                    } while (TRUE); 
+
+                        break;
+                    } while (true); 
 
                     /*************************************************/
                     /* If the close_conn flag was turned on, we need */
