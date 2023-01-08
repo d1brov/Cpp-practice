@@ -1,3 +1,0 @@
-﻿  test.cpp
-C:\Users\andrii\Desktop\C++ Apriorit\Cpp-practice\HW11_unit_testing\Task1Tests\test.cpp(17,22): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
-  Task1Tests.vcxproj -> C:\Users\andrii\Desktop\C++ Apriorit\Cpp-practice\HW11_unit_testing\x64\Debug\Task1Tests.exe
